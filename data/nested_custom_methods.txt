@@ -1,0 +1,17 @@
+{
+    "pi":3.14159,
+  
+    "init": [
+	{"cmd":"#circle_area", "radius":3 }
+    ],
+
+    "circle_area": [
+	{"cmd":"#square", "id":"r2", "value":"$radius"},
+	{"cmd":"multiply", "id":"area", "operand1":"#pi", "operand2":"#r2"},
+	{"cmd":"print", "value":"#area"}
+    ],
+
+    "square": [
+	{"cmd":"multiply", "id":"$id", "operand1":"$value", "operand2":"$value"}
+    ]
+}

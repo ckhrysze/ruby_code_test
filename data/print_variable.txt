@@ -1,0 +1,10 @@
+{
+    "init" : [
+	{"cmd" : "print", "value" : "#int1"},
+	{"cmd" : "print", "value" : "#int2"},
+	{"cmd" : "print", "value" : "#str1"},
+	{"cmd" : "print", "value" : "#str2"},
+	{"cmd" : "print", "value" : "#float1"},
+	{"cmd" : "print", "value" : "#float2"}
+    ]
+}

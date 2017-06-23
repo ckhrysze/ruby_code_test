@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+# add the lib folder to the load path
+$:.unshift('lib')
+
+# ensure at least one argument is given
+abort("Please provide at least one script") if ARGV.count == 0
+
+# make sure all the arguments map to existing files
+missing = ARGV.reject do |filename|
+  File.exists?(filename)
+end
+
+# exit unless all arguments map to actual files
+abort("All arguments must map to existing files") unless missing.empty?
+
+# now that we have some seemingly valid input, load the processor
+require 'fsl_processor'
+
+FSLProcessor.process_all(ARGV)
+

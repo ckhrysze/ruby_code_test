@@ -1,0 +1,9 @@
+{
+  "var1": asdf,
+  "float2":1.5,
+  
+  init: [
+    {cmd" : #setup }
+  ],
+  
+}

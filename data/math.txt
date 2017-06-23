@@ -1,0 +1,25 @@
+{
+  "a":4,
+  
+  "init": [
+    {"cmd" : "#maths" }
+  ],
+  
+  "maths": [
+    {"cmd":"add", "operand1":"#a", "operand2":5, "id": "b"},
+    {"cmd":"subtract", "operand1":"#b", "operand2":3, "id": "c"},
+    {"cmd":"divide", "operand1":"#c", "operand2":3, "id": "d"},
+    {"cmd":"multiply", "operand1":"#d", "operand2":8, "id": "e"},
+    {"cmd":"#wrappedPrint", "value": "#a"},
+    {"cmd":"#wrappedPrint", "value": "#b"},
+    {"cmd":"#wrappedPrint", "value": "#c"},
+    {"cmd":"#wrappedPrint", "value": "#d"},
+    {"cmd":"#wrappedPrint", "value": "#e"}
+  ],
+  
+  "wrappedPrint": [
+    {"cmd":"print", "value": "Before"},
+    {"cmd":"print", "value": "$value"},
+    {"cmd":"print", "value": "After"}
+  ]
+}

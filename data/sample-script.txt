@@ -1,0 +1,35 @@
+{
+  "var1":4,
+  "int1":5,
+  "int2":10,
+  "float1":3.5,
+  "float2":1.5,
+  
+  "init": [
+    {"cmd" : "#setup" }
+  ],
+  
+  "setup": [
+    {"cmd":"update", "id": "int1", "value":5},
+    {"cmd":"print", "value": "#int1"},
+    {"cmd":"#sum", "id": "int1", "value1":"#int1", "value2":"#int2"},
+    {"cmd":"print", "value": "#int1"},
+    {"cmd":"create", "id": "int3", "value":5},
+    {"cmd":"delete", "id": "int1"},
+    {"cmd":"#printAll"}
+  ],
+  
+  "sum": [
+      {"cmd":"add", "id": "$id", "operand1":"$value1", "operand2":"$value2"}
+  ],
+
+  "printAll":
+  [
+    {"cmd":"print", "value": "#var1"},
+    {"cmd":"print", "value": "#int1"},
+    {"cmd":"print", "value": "#int2"},
+    {"cmd":"print", "value": "#int3"},
+    {"cmd":"print", "value": "#float1"},
+    {"cmd":"print", "value": "#float2"}
+  ]
+}

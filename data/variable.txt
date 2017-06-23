@@ -1,0 +1,8 @@
+{
+    "int1" : 1,
+    "int2" : 2,
+    "str1" : "one",
+    "str2" : "two",
+    "float1" : 1.1,
+    "float2" : 2.2
+}
