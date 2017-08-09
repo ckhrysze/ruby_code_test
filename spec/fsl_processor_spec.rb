@@ -6,7 +6,7 @@ describe FSLProcessor do
       json = '{ "a" : "asdf" }'
 
       space = FSLProcessor.parse(json)
-      space.instance_variable_get("@a").should == "asdf"
+      expect(space.instance_variable_get("@a")).to eq("asdf")
     end
 
     it 'should parse variables into the given space' do
@@ -14,15 +14,15 @@ describe FSLProcessor do
 
       space = ExecutionSpace.new
       FSLProcessor.parse(json, space)
-      space.instance_variable_get("@a").should == "asdf"
+      expect(space.instance_variable_get("@a")).to eq("asdf")
     end
 
     it 'should raise an error if a variable contains illegal characters' do
       json = '{ "#a" : "asdf" }'
 
-      lambda {
+      expect {
         FSLProcessor.parse(json)
-      }.should raise_error
+      }.to raise_error(NameError)
     end
   end
 end

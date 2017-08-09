@@ -13,6 +13,13 @@ class BadArgumentType < Exception
   end
 end
 
+# Less specialized fsl argument errors
+class BadArgument < Exception
+  def initialize(message)
+    super(message)
+  end
+end
+
 # When a value is not of a supported type
 class InvalidType < Exception
   def initialize

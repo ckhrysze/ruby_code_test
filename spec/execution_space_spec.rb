@@ -6,7 +6,7 @@ describe ExecutionSpace do
     it 'should create a new method when none by the given name exist' do
       name = 'brand_new'
       ExecutionSpace.create_fsl_method(name, [])
-      ExecutionSpace.public_instance_methods(false).should include(name.to_sym)
+      expect(ExecutionSpace.public_instance_methods(false)).to include(name.to_sym)
     end
 
     it 'should override a custom method when one by the given name exists' do
@@ -19,13 +19,13 @@ describe ExecutionSpace do
       space = ExecutionSpace.new
       space.send(name)
 
-      space.instance_variable_get("@a").should == 5
+      expect(space.instance_variable_get("@a")).to eq(5)
     end
 
     it 'should raise an error when attempting to override a native method' do
-      lambda {
+      expect {
         ExecutionSpace.create_fsl_method('create', [])
-      }.should raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -34,9 +34,9 @@ describe ExecutionSpace do
       ExecutionSpace.create_fsl_method('test', [{'cmd' => '#respond_to?'}])
 
       space = ExecutionSpace.new
-      lambda {
+      expect {
         space.send('test')
-      }.should raise_error(UndefinedCustomMethod)
+      }.to raise_error(UndefinedCustomMethod)
     end
   end
 
@@ -48,39 +48,39 @@ describe ExecutionSpace do
     it 'should set the value of an instance variable' do
       @space.create({'id' => 'a', 'value' => 3})
 
-      @space.instance_variable_get('@a').should == 3
+      expect(@space.instance_variable_get('@a')).to eq(3)
     end
 
     it 'should raise an error when too many arguments are given' do
-      lambda {
+      expect {
         @space.create({'id' => 'a', 'value' => 3, 'extra' => 2})
-      }.should raise_error(BadArgumentCount)
+      }.to raise_error(BadArgumentCount)
     end
 
     it 'should raise an error when too few arguments are given' do
-      lambda {
+      expect {
         @space.create({'id' => 'a'})
-      }.should raise_error(BadArgumentCount)
+      }.to raise_error(BadArgumentCount)
     end
 
     it 'should raise an error if the variable is defined' do
       @space.create({'id' => 'a', 'value' => 3})
 
-      lambda {
+      expect {
         @space.create({'id' => 'a', 'value' => 3})
-      }.should raise_error
+      }.to raise_error(BadArgument)
     end
 
     it 'should raise an error when id is not given' do
-      lambda {
+      expect {
         @space.create({'var' => 'a', 'value' => 4})
-      }.should raise_error
+      }.to raise_error(BadArgument)
     end
 
     it 'should raise an error when the value is not given' do
-      lambda {
+      expect {
         @space.create({'id' => 'a', 'value1' => 3})
-      }.should raise_error
+      }.to raise_error(BadArgument)
     end
   end
 
@@ -93,37 +93,37 @@ describe ExecutionSpace do
       @space.instance_variable_set('@a', 3)
       @space.update({'id' => 'a', 'value' => 4})
 
-      @space.instance_variable_get('@a').should == 4
+      expect(@space.instance_variable_get('@a')).to eq(4)
     end
 
     it 'should raise an error when too many arguments are given' do
-      lambda {
+      expect {
         @space.update({'id' => 'a', 'value' => 3, 'extra' => 2})
-      }.should raise_error(BadArgumentCount)
+      }.to raise_error(BadArgumentCount)
     end
 
     it 'should raise an error when too few arguments are given' do
-      lambda {
+      expect {
         @space.update({'id' => 'a'})
-      }.should raise_error(BadArgumentCount)
+      }.to raise_error(BadArgumentCount)
     end
 
     it 'should raise an error if the variable is not defined' do
-      lambda {
+      expect {
         @space.update({'id' => 'a', 'value' => 3})
-      }.should raise_error
+      }.to raise_error(BadArgument)
     end
 
     it 'should raise an error when id is not given' do
-      lambda {
+      expect {
         @space.update({'var' => 'a', 'value' => 4})
-      }.should raise_error
+      }.to raise_error(BadArgument)
     end
 
     it 'should raise an error when the value is not given' do
-      lambda {
-        @space.udpate({'id' => 'a', 'value1' => 3})
-      }.should raise_error
+      expect {
+        @space.update({'id' => 'a', 'value1' => 3})
+      }.to raise_error(BadArgument)
     end
   end
 
@@ -136,25 +136,25 @@ describe ExecutionSpace do
       @space.instance_variable_set('@a', 3)
       @space.delete({'id' => 'a'})
 
-      @space.instance_variable_get('@a').should be_nil
+      expect(@space.instance_variable_get('@a')).to be_nil
     end
 
     it 'should raise an error when too many arguments are given' do
-      lambda {
+      expect {
         @space.delete({'id' => 'a', 'value' => 3})
-      }.should raise_error(BadArgumentCount)
+      }.to raise_error(BadArgumentCount)
     end
 
     it 'should raise an error if the variable is not defined' do
-      lambda {
+      expect {
         @space.delete({})
-      }.should raise_error
+      }.to raise_error(BadArgumentCount)
     end
 
     it 'should raise an error when id is not given' do
-      lambda {
+      expect {
         @space.delete({'var' => 'a'})
-      }.should raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -169,9 +169,9 @@ describe ExecutionSpace do
         'operand2' => 3
       }
 
-      lambda {
+      expect {
         space.send(operation, params)
-      }.should raise_error(BadArgumentType)
+      }.to raise_error(BadArgumentType)
     end
 
     it 'should raise an error if operand1 is a string' do
@@ -181,9 +181,9 @@ describe ExecutionSpace do
         'operand2' => 3
       }
 
-      lambda {
+      expect {
         space.send(operation, params)
-      }.should raise_error(BadArgumentType)
+      }.to raise_error(BadArgumentType)
     end
 
     it 'should raise an error if operand2 is a string' do
@@ -193,9 +193,9 @@ describe ExecutionSpace do
         'operand2' => '3'
       }
 
-      lambda {
+      expect {
         space.send(operation, params)
-      }.should raise_error(BadArgumentType)
+      }.to raise_error(BadArgumentType)
     end
 
     it 'should raise an error if not given exactly 3 parameters' do
@@ -211,13 +211,13 @@ describe ExecutionSpace do
         'operand3' => 3
       }
 
-      lambda {
+      expect {
         space.send(operation, too_few)
-      }.should raise_error(BadArgumentCount)
+      }.to raise_error(BadArgumentCount)
 
-      lambda {
+      expect {
         space.send(operation, too_many)
-      }.should raise_error(BadArgumentCount)
+      }.to raise_error(BadArgumentCount)
     end
   end
 
@@ -228,7 +228,7 @@ describe ExecutionSpace do
       space = ExecutionSpace.new
       space.add({'id' => 'a', 'operand1' => 4, 'operand2' => 3})
 
-      space.instance_variable_get('@a').should == 7
+      expect(space.instance_variable_get('@a')).to eq(7)
     end
   end
 
@@ -239,7 +239,7 @@ describe ExecutionSpace do
       space = ExecutionSpace.new
       space.subtract({'id' => 'a', 'operand1' => 4, 'operand2' => 3})
 
-      space.instance_variable_get('@a').should == 1
+      expect(space.instance_variable_get('@a')).to eq(1)
     end
   end
 
@@ -250,7 +250,7 @@ describe ExecutionSpace do
       space = ExecutionSpace.new
       space.multiply({'id' => 'a', 'operand1' => 4, 'operand2' => 3})
 
-      space.instance_variable_get('@a').should == 12
+      expect(space.instance_variable_get('@a')).to eq(12)
     end
   end
 
@@ -261,7 +261,7 @@ describe ExecutionSpace do
       space = ExecutionSpace.new
       space.divide({'id' => 'a', 'operand1' => 12, 'operand2' => 3})
 
-      space.instance_variable_get('@a').should == 4
+      expect(space.instance_variable_get('@a')).to eq(4)
     end
   end
 
@@ -271,15 +271,15 @@ describe ExecutionSpace do
     end
 
     it 'should raise an error when too many arguments are given' do
-      lambda {
+      expect {
         @space.print({'id' => 'a', 'value' => 'asdf'})
-      }.should raise_error(BadArgumentCount)
+      }.to raise_error(BadArgumentCount)
     end
 
     it 'should raise an error when too few arguments are given' do
-      lambda {
+      expect {
         @space.print({})
-      }.should raise_error(BadArgumentCount)
+      }.to raise_error(BadArgumentCount)
     end
   end
 

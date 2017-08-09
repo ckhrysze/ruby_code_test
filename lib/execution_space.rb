@@ -1,7 +1,6 @@
 require 'exceptions'
 
-# The class on which fsl variables and methods
-# are defined
+# The class on which fsl variables and methods are defined
 class ExecutionSpace
 
   # Create a new method for any instance of this class. If instances
@@ -15,7 +14,7 @@ class ExecutionSpace
     raise "Cannot override native methods" if @@fsl_methods.include?(name)
 
     @@custom_methods << name
-    
+
     define_method(name) do |*args|
 
       # if there are any args, its the hash of paramaters to a
@@ -76,11 +75,11 @@ class ExecutionSpace
     var = params['id']
     value = params['value']
 
-    raise "Create requires id and a value" unless var && value
+    raise BadArgument.new("Create requires id and a value") unless var && value
 
     var = "@#{var}"
     if instance_variable_defined?(var)
-      raise "Instance variable #{var} should not be defined"
+      raise BadArgument.new("Instance variable #{var} should not be defined")
     end
 
     self.instance_variable_set(var, value)
@@ -94,11 +93,11 @@ class ExecutionSpace
     var = params['id']
     value = params['value']
 
-    raise "Update requires id and value" unless var && value
+    raise BadArgument.new("Update requires id and value") unless var && value
 
     var = "@#{var}"
     unless instance_variable_defined?(var)
-      raise "Instance variable #{var} should be defined"
+      raise BadArgument.new("Instance variable #{var} should be defined")
     end
 
     self.instance_variable_set(var, value)
@@ -164,8 +163,7 @@ class ExecutionSpace
   # calling existing ruby object methods
   @@fsl_methods = self.public_instance_methods(false)
 
-  # List of custom methods also used to control what can
-  # be invoked
+  # List of custom methods also used to control what can be invoked
   @@custom_methods = []
 
   private
